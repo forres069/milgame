@@ -29,6 +29,7 @@ class Question(BaseModel):
     answer2 = models.CharField(max_length=2048)
     answer3 = models.CharField(max_length=2048)
     answer4 = models.CharField(max_length=2048)
+    correct = models.IntegerField(choices=[(i + 1, f"#{i + 1}") for i in range(4)])
 
     class Meta:
         ordering = ["order"]

@@ -7,6 +7,7 @@ from . import models
 
 class QuestionInline(SortableTabularInline):
     model = models.Question
+    extra = 0
 
 
 class CollectionAdmin(SortableAdminBase, admin.ModelAdmin):
