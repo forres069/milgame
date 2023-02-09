@@ -23,6 +23,7 @@ i18n
       },
       ru: {
         translation: {
+          'All games': 'Все игры',
         }
       }
     }
