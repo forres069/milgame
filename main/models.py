@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class BaseModel(models.Model):
@@ -51,7 +52,7 @@ class Game(BaseModel):
 
 class Player(BaseModel):
     game = models.ForeignKey("Game", on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, db_index=True)
+    name = models.CharField(_("name"), max_length=255, db_index=True)
 
 
 class QuestionAnswer(BaseModel):

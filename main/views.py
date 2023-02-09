@@ -6,6 +6,7 @@ from logicore_django_react_pages.views import ApiView, JsonResponse
 from .framework import read_fields, write_fields
 from django.utils import timezone
 from . import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Error404ApiView(ApiView):
@@ -84,7 +85,7 @@ class GameView(ApiView):
         return {
             "type": "Fields",
             "fields": [
-                {"from_field": "name", "label": "Please enter your name"},
+                {"from_field": "name", "label": _("Please enter your name")},
             ],
         }
 
