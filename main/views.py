@@ -1,9 +1,8 @@
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from logicore_django_react_pages.views import ApiView
+from logicore_django_react_pages.views import ApiView, JsonResponse
 from .framework import read_fields, write_fields
-from django.http import JsonResponse
 from django.utils import timezone
 from . import models
 
@@ -84,7 +83,7 @@ class GameView(ApiView):
         return {
             "type": "Fields",
             "fields": [
-                {"from_field": "name"},
+                {"from_field": "name", "label": "Please enter your name"},
             ],
         }
 
@@ -132,7 +131,9 @@ class GameView(ApiView):
         }
 
     def post(self, request, *args, **kwargs):
-        pass
+        lang = "/" + request.LANGUAGE_CODE if request.LANGUAGE_CODE != "en" else ""
+        game = models.Game.objects.filter(uuid=self.kwargs["uuid"]).first()
+        return JsonResponse({"navigate": f"{lang}/game/{game.uuid}/"})
 
 
 @method_decorator(csrf_exempt, name="dispatch")
