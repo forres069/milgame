@@ -10,7 +10,7 @@ idna==3.3
 ipdb==0.13.9
 ipython==7.34.0
 jedi==0.18.1
-logicore-django-react==1.0.0.dev18
+logicore-django-react==1.0.0.dev19
 logicore-django-react-pages==1.0.0.dev5
 matplotlib-inline==0.1.6
 parso==0.8.3
