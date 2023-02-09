@@ -17,8 +17,17 @@ i18n
       escapeValue: false, // not needed for react as it escapes by default
     },
     resources: {
-      en: {
+      fr: {
         translation: {
+          'All games': 'Tous les jeux',
+          'Page not found': 'Page non trouvée',
+          'Visit Home': 'Visitez la page d\'accueil',
+          'Name': 'Nom',
+          'The Game': 'Le jeu',
+          'Will end on': 'Se terminera le',
+          'Thank you for participating in a game': 'Merci d\'avoir participé à un jeu',
+          'Results will be published on': 'Les résultats seront publiés le',
+          'Question': 'Question',
         }
       },
       ru: {
@@ -31,6 +40,7 @@ i18n
           'Will end on': 'Закончится',
           'Thank you for participating in a game': 'Спасибо за участие в игре',
           'Results will be published on': 'Результаты будут опубликованы',
+          'Question': 'Вопрос',
         }
       }
     }
