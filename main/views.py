@@ -78,7 +78,21 @@ class GameView(ApiView):
     url_path = "/game/<uuid:uuid>/"
     WRAPPER = "MainWrapper"
     TEMPLATE = None
-    title = "Home"
+    title = "Welcome to the game"
+
+    def get_fields(self):
+        return {
+            "type": "Fields",
+            "fields": [
+                {"from_field": "name"},
+            ],
+        }
+
+    def get_obj(self):
+        game = models.Game.objects.filter(uuid=self.kwargs["uuid"]).first()
+        return models.Player(
+            game=game,
+        )
 
     def get_data(self, request, *args, **kwargs):
         state = json.loads(request.session.get("GAME_STATE", "{}"))
@@ -96,20 +110,29 @@ class GameView(ApiView):
             return {
                 "template": "GameEnded",
                 "name": game.name,
-                "start_datetime": game.start_datetime,
+                "end_datetime": game.end_datetime,
+            }
+        # Game is normal
+        player_data = state.get(str(game.uuid))
+        if player_data:
+            return {
+                "title": "Please enter your name",
+                "template": "GenericForm",
+                **read_fields(
+                    self.get_fields(),
+                    self.get_obj(),
+                ),
             }
         return {
             "template": "GenericForm",
             **read_fields(
-                {
-                    "type": "Fields",
-                    "fields": [
-                        {"from_field": "name"},
-                    ],
-                },
-                models.Player(),
+                self.get_fields(),
+                self.get_obj(),
             ),
         }
+
+    def post(self, request, *args, **kwargs):
+        pass
 
 
 @method_decorator(csrf_exempt, name="dispatch")
