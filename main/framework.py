@@ -3,7 +3,6 @@ import itertools
 from collections import defaultdict
 from decimal import Decimal
 
-from constance import config
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ImproperlyConfigured
@@ -19,8 +18,6 @@ from django.db.models import (
 )
 from django.db.models.expressions import Func
 from django.utils.timezone import datetime, timedelta
-from djmoney.models.fields import MoneyField
-from djmoney.money import Money
 
 from .utils2 import plural_days
 
@@ -563,15 +560,6 @@ def field_from_field(f, field, model):
             "required": not f.blank,
             "validators": [],
         }
-    if isinstance(f, MoneyField):
-        return {
-            "k": f.name,
-            "type": "MoneyField",
-            "label": f.verbose_name.capitalize(),
-            "required": not f.blank,
-            "validators": [],
-            "default_currency": config.CURRENCY,
-        }
     if isinstance(f, db_models.DecimalField):
         validators = []
         for boundary in ["min", "max"]:
@@ -775,13 +763,6 @@ def read_field(obj, v, getter=getattr, raw=False):
             "from": getter(obj, v["k"] + "_from"),
             "to": getter(obj, v["k"] + "_to"),
         }
-    elif v["type"] == "MoneyField":
-        vv = getter(obj, v["k"])
-        if vv in ["", None]:
-            return None
-        if not vv:
-            vv = Money(0, config.CURRENCY)
-        return {"amount": vv.amount, "currency": vv.currency.code}
     elif v["type"] == "DecimalField":
         return str(getter(obj, v["k"]))
     elif v["type"] == "Image2Field":
@@ -1175,14 +1156,6 @@ def do_write_fields(fields, obj, data, files=None):
                 setter(obj, v["k"], val)
             else:
                 setter(obj, v["k"], base64_file(val))
-        elif v["type"] == "MoneyField":
-            if not val:
-                val = {}
-            if val.get("amount", None) in ["", None]:
-                vv = None
-            else:
-                vv = Money(val.get("amount", 0), val.get("currency", config.CURRENCY))
-            setter(obj, v["k"], vv)
         elif v["type"] == "DecimalField":
             setter(obj, v["k"], Decimal(str(val or 0)))
         elif v["type"] == "DateField":

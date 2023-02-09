@@ -1,5 +1,6 @@
 from logicore_django_react_pages.views import ApiView
 from .framework import write_fields
+from . import models
 
 
 class HomeView(ApiView):
@@ -13,7 +14,6 @@ class HomeView(ApiView):
         return {"name": "World"}
 
 
-
 class LoadFromBibleView(ApiView):
     url_name = "load-from-bible"
     url_path = "/load-from-bible-0d66a7dd-a69d-4a8d-ae59-7b379ceb9c12/"
@@ -22,4 +22,22 @@ class LoadFromBibleView(ApiView):
         return {}
 
     def post(self, request, *args, **kwargs):
-        return wri
+        return write_fields(
+            {
+                "type": "Fields",
+                "fields": [
+                    {"from_field": "name"},
+                    {"type": "ForeignKeyListField", "k": "question", "fields": [
+                        {"from_field": "id"},
+                        {"from_field": "text"},
+                        {"from_field": "answer1"},
+                        {"from_field": "answer2"},
+                        {"from_field": "answer3"},
+                        {"from_field": "answer4"},
+                        {"from_field": "correct"},
+                        {"from_field": "order"},
+                    ]},
+                ],
+            },
+            models.Collection(),
+        )
