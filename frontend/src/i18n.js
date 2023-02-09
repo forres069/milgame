@@ -28,6 +28,7 @@ i18n
           'Thank you for participating in a game': 'Merci d\'avoir participé à un jeu',
           'Results will be published on': 'Les résultats seront publiés le',
           'Question': 'Question',
+          'Start the game': 'Commencer le jeu',
         }
       },
       ru: {
@@ -41,6 +42,7 @@ i18n
           'Thank you for participating in a game': 'Спасибо за участие в игре',
           'Results will be published on': 'Результаты будут опубликованы',
           'Question': 'Вопрос',
+          'Start the game': 'Начать игру',
         }
       }
     }

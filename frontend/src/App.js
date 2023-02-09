@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useState, useCallback } from "react";
 import { App, mainComponents, wrapperComponents, addLangToPathName, removeLangFromPathName } from "logicore-react-pages";
 
-import { GenericForm as TheGenericForm } from "logicore-forms";
+import { GenericForm as TheGenericForm, submitButtonWidgets } from "logicore-forms";
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -23,6 +23,13 @@ import './i18n';
 
 
 import './App.scss';
+
+
+const GameSubmit = () => {
+  return <button type="button" className="btn btn-success"><Trans>Start the game</Trans></button>;
+};
+
+Object.assign(submitButtonWidgets, { GameSubmit });
 
 const addLang = (url) => addLangToPathName(window.CURRENT_LANGUAGE, url);
 

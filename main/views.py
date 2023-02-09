@@ -127,6 +127,7 @@ class GameView(ApiView):
                     self.get_fields(),
                     self.get_obj(),
                 ),
+                "submitButtonWidget": "GameSubmit",
             }
         answered_ids = player.questionanswer_set.values_list("question_id", flat=True)
         unanswered = (

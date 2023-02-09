@@ -6370,9 +6370,9 @@ lodash@^4.17.15, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 logicore-forms@^1.0.3-alpha.2:
-  version "1.0.3-alpha.3"
-  resolved "https://registry.yarnpkg.com/logicore-forms/-/logicore-forms-1.0.3-alpha.3.tgz#8cb7e20881e886aff5b64eb3151f47f465012c5b"
-  integrity sha512-NJy2VRxkVx1jpIYQodfR+zYYAy7S9kcEz6+U3A5eW9gNWZ8c5HROGKkdzvYSzNJqw/x4i0nSRfeJcvSIxLBPmw==
+  version "1.0.3-alpha.4"
+  resolved "https://registry.yarnpkg.com/logicore-forms/-/logicore-forms-1.0.3-alpha.4.tgz#edadb36faf3445df92d5ca225b339ced2f50dedd"
+  integrity sha512-vupD+0Fm6EmtmNalaw4+cpKRoH6issmcsUSU8BkxMrdfeMwHXY9rqvIaDXnpWtuHgrclBCi5KI6HHDIaSi5suA==
   dependencies:
     axios "^0.27.2"
     classd "^1.0.0"
