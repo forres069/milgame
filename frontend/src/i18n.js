@@ -27,6 +27,10 @@ i18n
           'Page not found': 'Страница не найдена',
           'Visit Home': 'Перейти на главную',
           'Name': 'Имя',
+          'The Game': 'Игра',
+          'Will end on': 'Закончится',
+          'Thank you for participating in a game': 'Спасибо за участие в игре',
+          'Results will be published on': 'Результаты будут опубликованы',
         }
       }
     }

@@ -94,6 +94,25 @@ const HomeView = (props) => {
 };
 
 
+const Game = (props) => {
+  return <div className="container my-3">
+    <h3><Trans>The Game</Trans>: «<Trans>{props.name}</Trans>»</h3>
+    <div className="my-3"><Trans>Will end on</Trans>: {props.end_datetime}</div>
+    <div className="my-5">
+      <h5 className="my-2"><Trans>Question</Trans> {props.index} / {props.total}</h5>
+      <blockquote className="blockquote">{props.text}</blockquote>
+      <div className="d-grid" style={{gridTemplateColumns: "1fr 1fr", gridGap: 20}}>
+        {[1,2,3,4].map(i => (
+          <button key={i} type="button" className="btn btn-xl btn-outline-dark" style={{textAlign: "left"}} onClick={_ => props.onChange({questionId: props.pk, answer: i})}>
+            {props[`answer${i}`]}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>;
+};
+
+
 const GameWillStart = (props) => {
   return <div className="container my-3">
     <h3><Trans>The Game</Trans></h3>
@@ -108,6 +127,15 @@ const GameEnded = (props) => {
     <h3><Trans>The Game</Trans></h3>
     <h2>«<Trans>{props.name}</Trans>»</h2>
     <div><Trans>Has ended on:</Trans> {props.end_datetime}</div>
+  </div>;
+};
+
+
+const GameFinish = (props) => {
+  return <div className="container my-3">
+    <h3><Trans>Thank you for participating in a game</Trans></h3>
+    <h2>«<Trans>{props.name}</Trans>»</h2>
+    <div><Trans>Results will be published on</Trans>: {props.end_datetime}</div>
   </div>;
 };
 
@@ -128,6 +156,8 @@ Object.assign(mainComponents, {
   HomeView,
   PageNotFound,
   GenericForm,
+  Game,
+  GameFinish,
   GameWillStart,
   GameEnded,
 });

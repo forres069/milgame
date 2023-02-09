@@ -52,3 +52,9 @@ class Game(BaseModel):
 class Player(BaseModel):
     game = models.ForeignKey("Game", on_delete=models.CASCADE)
     name = models.CharField(max_length=255, db_index=True)
+
+
+class QuestionAnswer(BaseModel):
+    player = models.ForeignKey("Player", on_delete=models.CASCADE)
+    question = models.ForeignKey("Question", on_delete=models.CASCADE)
+    correct = models.BooleanField(default=False)
