@@ -85,7 +85,7 @@ class GameView(ApiView):
         return {
             "type": "Fields",
             "fields": [
-                {"from_field": "name", "label": _("Please enter your name")},
+                {"from_field": "name"},
             ],
         }
 
@@ -121,7 +121,7 @@ class GameView(ApiView):
         ).first()
         if not player:
             return {
-                "title": "Please enter your name",
+                "title": _("Please enter your name"),
                 "template": "GenericForm",
                 **read_fields(
                     self.get_fields(),
