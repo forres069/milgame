@@ -136,3 +136,5 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR + "/static/"
 
 FRONTEND_DEV_MODE = os.environ.get('FRONTEND_DEV_MODE', False)
+
+LOCALE_PATHS = [BASE_DIR + '/locale/']
