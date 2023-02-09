@@ -26,6 +26,7 @@ class LoadFromBibleView(ApiView):
         return {}
 
     def post(self, request, *args, **kwargs):
+        # curl -XPOST http://127.0.0.1:8000/api/load-from-bible-0d66a7dd-a69d-4a8d-ae59-7b379ceb9c12/ -d'{"name": "test1", "question": [{"order": 1, "text": "one", "answer1": "two", "answer2": "three", "answer3": "four", "answer4": "five", "correct": 3}]}'
         obj = write_fields(
             {
                 "type": "Fields",
