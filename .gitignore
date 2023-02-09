@@ -2,3 +2,4 @@ __pycache__
 main/templates/react/**
 main/static/react/**
 .venv/
+*.mo
