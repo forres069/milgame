@@ -26,7 +26,7 @@ SECRET_KEY = '3ue_-s*v69g5r^fp)g&saf0n=@jf9hl67c344xdy7*)dcv^#=l'
 DEBUG = True
 
 ALLOWED_HOSTS = ["milgame.andrewboltachev.site", "127.0.0.1", "localhost"]
-CSRF_TRUSTED_ORIGINS = ["milgame.andrewboltachev.site", "127.0.0.1", "localhost"]
+CSRF_TRUSTED_ORIGINS = ["https://milgame.andrewboltachev.site/", "http://127.0.0.1/", "http://localhost/"]
 
 # Application definition
 
