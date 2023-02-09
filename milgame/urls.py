@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from logicore_django_react.urls import react_reload_and_static_urls, react_html_template_urls
 from main import views # required
 from logicore_django_react_pages.views import all_api_urls
@@ -24,6 +24,7 @@ from django.conf.urls.i18n import i18n_patterns
 urlpatterns = [
     *i18n_patterns(path('admin/', admin.site.urls), prefix_default_language=False),
     *all_api_urls(),
+    *i18n_patterns(re_path(r"api/.*", views.Error404ApiView.as_view()), prefix_default_language=False),
 ]
 
 urlpatterns = react_reload_and_static_urls + urlpatterns + react_html_template_urls

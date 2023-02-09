@@ -65,13 +65,34 @@ Object.assign(wrapperComponents, {
 const HomeView = (props) => {
   return <div className="container my-3">
     <h3><Trans>All games</Trans></h3>
+		<table className="table table-border mt-3">
+      <thead>
+        <tr>
+          <th><Trans>Name</Trans></th>
+          <th><Trans>Start date and time</Trans></th>
+          <th><Trans>End date and time</Trans></th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.items?.map(item => (<tr>
+          <td><Link to={addLang(`/game/${item.uuid}/`)}>{item.name}</Link></td>
+          <td>{item.start_datetime}</td>
+          <td>{item.end_datetime}</td>
+        </tr>))}
+      </tbody>
+		</table>
   </div>;
 };
 
-Object.assign(mainComponents, {
-    HomeView,
-});
+const PageNotFound = () => {
+  return <div style={{position: "fixed", top: 0, left: 0, right: 0, bottom: 0, display: "flex", justifyContent: "center", alignItems: "center"}}>
+    <div><Trans>Page not found</Trans>. <Link to="/"><Trans>Visit Home</Trans></Link></div>
+  </div>;
+}
 
-console.log(addLangToPathName);
+Object.assign(mainComponents, {
+  HomeView,
+  PageNotFound,
+});
 
 export default App;
