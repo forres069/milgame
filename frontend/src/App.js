@@ -1,6 +1,8 @@
 import React, { useMemo, useEffect, useState, useCallback } from "react";
 import { App, mainComponents, wrapperComponents, addLangToPathName, removeLangFromPathName } from "logicore-react-pages";
 
+//import { GenericForm } from "logicore-forms";
+
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -84,6 +86,15 @@ const HomeView = (props) => {
   </div>;
 };
 
+
+const GameWillStart = (props) => {
+  return <div className="container my-3">
+    <h3><Trans>The Game</Trans></h3>
+    <h2>«<Trans>{props.name}</Trans>»</h2>
+    <div><Trans>Will start on:</Trans> {props.start_datetime}</div>
+  </div>;
+};
+
 const PageNotFound = () => {
   return <div style={{position: "fixed", top: 0, left: 0, right: 0, bottom: 0, display: "flex", justifyContent: "center", alignItems: "center"}}>
     <div><Trans>Page not found</Trans>. <Link to="/"><Trans>Visit Home</Trans></Link></div>
@@ -93,6 +104,7 @@ const PageNotFound = () => {
 Object.assign(mainComponents, {
   HomeView,
   PageNotFound,
+  //GenericForm,
 });
 
 export default App;
