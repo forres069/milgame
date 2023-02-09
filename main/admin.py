@@ -14,4 +14,9 @@ class CollectionAdmin(SortableAdminBase, admin.ModelAdmin):
 
 
 admin.site.register(models.Collection, CollectionAdmin)
-admin.site.register(models.Game)
+
+
+class GameAdmin(admin.ModelAdmin):
+    readonly_fields = ["uuid"]
+
+admin.site.register(models.Game, GameAdmin)

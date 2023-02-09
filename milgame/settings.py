@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'logicore_django_react',
+    'adminsortable2',
     'main',
 ]
 

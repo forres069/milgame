@@ -14,17 +14,21 @@ class Collection(BaseModel):
     name = models.CharField(max_length=1024, blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
 
 class Question(BaseModel):
     collection = models.ForeignKey("Collection", on_delete=models.SET_NULL, null=True, blank=True)
-    text = models.CharField(max_length=2048, blank=True, null=True)
+    text = models.CharField(max_length=2048)
     order = models.PositiveIntegerField(
         default=0,
         blank=False,
         null=False,
     )
+    answer1 = models.CharField(max_length=2048)
+    answer2 = models.CharField(max_length=2048)
+    answer3 = models.CharField(max_length=2048)
+    answer4 = models.CharField(max_length=2048)
 
     class Meta:
         ordering = ["order"]
@@ -34,11 +38,14 @@ class Question(BaseModel):
 
 
 class Game(BaseModel):
-    name = models.CharField(max_length=1024, blank=True, null=True)
-    collection = models.ForeignKey("Collection", on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=1024)
+    collection = models.ForeignKey("Collection", on_delete=models.CASCADE)
     start_datetime = models.DateTimeField()
     end_datetime = models.DateTimeField()
     uuid = models.UUIDField(default=uuid.uuid4)
+
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Player(BaseModel):
