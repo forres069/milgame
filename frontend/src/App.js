@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useState, useCallback } from "react";
 import { App, mainComponents, wrapperComponents, addLangToPathName, removeLangFromPathName } from "logicore-react-pages";
 
-//import { GenericForm } from "logicore-forms";
+import { GenericForm } from "logicore-forms";
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
