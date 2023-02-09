@@ -26,7 +26,7 @@ import './App.scss';
 
 const addLang = (url) => addLangToPathName(window.CURRENT_LANGUAGE, url);
 
-const MainWrapper = ({ result, onChange }) => {
+const MainWrapper = ({ player_name, result, onChange }) => {
   const Component = mainComponents[result?.template];
   const loc = useLocation();
   const getUrl = (lang) => {
@@ -45,6 +45,13 @@ const MainWrapper = ({ result, onChange }) => {
               <Link className="nav-link" to={addLang("/")}><Trans>All games</Trans></Link>
             </Nav>
             <Nav className="ml-auto">
+              {result.player_name &&
+                <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href="#" onClick={e => e.preventDefault()}>
+                    <Trans>Name</Trans>: {result.player_name}
+                  </a>
+                </li>
+              }
               <NavDropdown title={<><i className="fas fa-language"></i>{" "}{ window.CURRENT_LANGUAGE_NAME }</>} id="basic-nav-dropdown" align="end">
                 {window.LANGUAGES.map(([code, name]) => {
                   return <NavDropdown.Item key={code} href={getUrl(code)}>{name}</NavDropdown.Item>;

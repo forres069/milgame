@@ -94,8 +94,10 @@ class GameView(ApiView):
         )
 
     def get_data(self, request, *args, **kwargs):
+        #del request.session["GAME_STATE"]
         state = json.loads(request.session.get("GAME_STATE", "{}"))
         game = models.Game.objects.filter(uuid=self.kwargs["uuid"]).first()
+        print("state", state)
         if not game:
             return {"template": "PageNotFound"}
         now = timezone.now()
@@ -112,8 +114,8 @@ class GameView(ApiView):
                 "end_datetime": game.end_datetime,
             }
         # Game is normal
-        player_data = state.get(str(game.uuid))
-        if player_data:
+        player = models.Player.objects.filter(pk=state.get(str(game.uuid), None)).first()
+        if not player:
             return {
                 "title": "Please enter your name",
                 "template": "GenericForm",
@@ -123,16 +125,27 @@ class GameView(ApiView):
                 ),
             }
         return {
-            "template": "GenericForm",
-            **read_fields(
-                self.get_fields(),
-                self.get_obj(),
-            ),
+            "template": "Game",
+            "player_name": player.name,
         }
 
     def post(self, request, *args, **kwargs):
         lang = "/" + request.LANGUAGE_CODE if request.LANGUAGE_CODE != "en" else ""
+        state = json.loads(request.session.get("GAME_STATE", "{}"))
         game = models.Game.objects.filter(uuid=self.kwargs["uuid"]).first()
+        if not game:
+            return {}
+        now = timezone.now()
+        if game.start_datetime > now:
+            return {}
+        if game.end_datetime < now:
+            return {}
+        # Game is normal
+        player_data = state.get(str(game.uuid))
+        if not player_data:
+            player = write_fields(self.get_fields(), self.get_obj(), json.loads(request.body)["data"])
+            state[str(game.uuid)] = player.pk
+            request.session['GAME_STATE'] = json.dumps(state)
         return JsonResponse({"navigate": f"{lang}/game/{game.uuid}/"})
 
 
