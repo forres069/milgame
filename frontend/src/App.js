@@ -26,7 +26,7 @@ import './App.scss';
 
 
 const GameSubmit = () => {
-  return <button type="button" className="btn btn-success"><Trans>Start the game</Trans></button>;
+  return <button type="submit" className="btn btn-success"><Trans>Start the game</Trans></button>;
 };
 
 Object.assign(submitButtonWidgets, { GameSubmit });
