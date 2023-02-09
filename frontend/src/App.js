@@ -1,5 +1,5 @@
 import React from "react";
-import { App, mainComponents, wrapperComponents } from "logicore-react-pages";
+import { App, mainComponents, wrapperComponents, addLangToPathName } from "logicore-react-pages";
 
 import { useTranslation, Trans } from 'react-i18next';
 import './i18n';
@@ -25,5 +25,7 @@ const HomeView = (props) => {
 Object.assign(mainComponents, {
     HomeView,
 });
+
+console.log(addLangToPathName);
 
 export default App;
