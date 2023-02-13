@@ -10,7 +10,19 @@ from . import models
 from django.utils.translation import gettext_lazy as _
 
 
-class Error404ApiView(ApiView):
+class MainView(ApiView):
+    def dispatch(self, request, *args, **kwargs):
+        self.player = None
+        player_id = request.session.get("PLAYER_ID", None)
+        if player_id:
+            self.player = models.Player.objects.filter(pk=int(player_id)).first()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_data(self, request, *args, **kwargs):
+        return {"player_name": self.player.name if self.player else None}
+
+
+class Error404ApiView(MainView):
     in_menu = False
     url_path = "/404"
     title = "Error: Page not found"
@@ -21,7 +33,7 @@ class Error404ApiView(ApiView):
         return {}
 
 
-class WelcomeView(ApiView):
+class WelcomeView(MainView):
     url_name = "home"
     url_path = "/welcome/"
     WRAPPER = "MainWrapper"
@@ -30,18 +42,23 @@ class WelcomeView(ApiView):
 
     def get_data(self, request, *args, **kwargs):
         return {
+            **super().get_data(request, *args, **kwargs),
             "fields": {"type": "Fields", "fields": [
-                {"type": "TextField", "k": "username", "label": _("name").capitalize()},
-                {"type": "TextField", "k": "password1", "label": _("password").capitalize(), "subtype": "password"},
+                {"type": "TextField", "k": "name", "label": _("name").capitalize()},
+                {"type": "TextField", "k": "password", "label": _("password").capitalize(), "subtype": "password"},
             ]},
             "submitButtonWidget": "WelcomeSubmit",
         }
 
     def post(self, request, *args, **kwargs):
-        return JsonResponse({})
+        if not self.player:
+            data = json.loads(request.body)["data"]
+            player, created = models.Player.objects.get_or_create(**data)
+            request.session["PLAYER_ID"] = player.pk
+        return JsonResponse({"navigate": "/", "notification": {"type": "success", "text": _("Logged in")}})
 
 
-class HomeView(ApiView):
+class HomeView(MainView):
     url_name = "home"
     url_path = "/"
     WRAPPER = "MainWrapper"
@@ -49,13 +66,29 @@ class HomeView(ApiView):
     title = "Home"
 
     def get_data(self, request, *args, **kwargs):
-        if not self.request.user.is_authenticated:
+        if not self.player:
             return {"navigate": "/welcome/"}
-        return {"items": list(models.Collection.objects.values("name", "pk"))}
+        return {
+            **super().get_data(request, *args, **kwargs),
+            "items": list(models.Collection.objects.values("name", "pk"))
+        }
+
+
+class LogoutView(MainView):
+    url_name = "home"
+    url_path = "/logout/"
+    WRAPPER = "MainWrapper"
+    TEMPLATE = "HomeView"
+    title = "Home"
+
+    def get_data(self, request, *args, **kwargs):
+        if request.session.get("PLAYER_ID", None):
+            del request.session["PLAYER_ID"]
+        return {"navigate": "/welcome/"}
 
 
 """
-class SimpleGameView(ApiView):
+class SimpleGameView(MainView):
     url_name = "home"
     url_path = "/simple-game/<:id>/"
     WRAPPER = "MainWrapper"

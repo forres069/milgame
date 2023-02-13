@@ -22,6 +22,7 @@ class Collection(BaseModel):
 class Player(BaseModel):
     name = models.CharField(max_length=255, db_index=True)
     password = models.CharField(max_length=255)
+    last_login_datetime = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.name

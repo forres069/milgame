@@ -29,7 +29,11 @@ const GameSubmit = () => {
   return <button type="submit" className="btn btn-success"><Trans>Start the game</Trans></button>;
 };
 
-Object.assign(submitButtonWidgets, { GameSubmit });
+const WelcomeSubmit = () => {
+  return <button type="submit" className="btn btn-success my-3"><Trans>Continue</Trans></button>;
+};
+
+Object.assign(submitButtonWidgets, { GameSubmit, WelcomeSubmit });
 
 const addLang = (url) => addLangToPathName(window.CURRENT_LANGUAGE, url);
 
@@ -53,13 +57,18 @@ const MainWrapper = ({ user, result, onChange }) => {
               <Link className="nav-link" to={addLang("/")}><Trans>All games</Trans></Link>
             </Nav>
             <Nav className="ml-auto">
-              {result.player_name &&
+              {result.player_name && <>
                 <li className="nav-item">
                   <a className="nav-link active" aria-current="page" href="#" onClick={e => e.preventDefault()}>
                     <Trans>Name</Trans>: {result.player_name}
                   </a>
                 </li>
-              }
+                <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href="#" onClick={e => e.preventDefault()}>
+                    <Link to="/logout/"><Trans>Logout</Trans></Link>
+                  </a>
+                </li>
+              </>}
               <NavDropdown title={<><i className="fas fa-language"></i>{" "}{ window.CURRENT_LANGUAGE_NAME }</>} id="basic-nav-dropdown" align="end">
                 {window.LANGUAGES.map(([code, name]) => {
                   return <NavDropdown.Item key={code} href={getUrl(code)}>{name}</NavDropdown.Item>;
@@ -105,9 +114,7 @@ const HomeView = (props) => {
 const WelcomeView = (props) => {
   return <div className="container my-3">
     <h3><Trans>Welcome! Please enter or create a name and a password</Trans></h3>
-		<table className="table table-border mt-3">
-      <TheGenericForm {...props} />
-		</table>
+    <TheGenericForm {...props} />
   </div>;
 };
 
