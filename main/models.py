@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
 
 class BaseModel(models.Model):
@@ -16,6 +17,14 @@ class Collection(BaseModel):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Player(BaseModel):
+    name = models.CharField(max_length=255, db_index=True)
+    password = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class Question(BaseModel):
@@ -40,22 +49,15 @@ class Question(BaseModel):
 
 
 class Game(BaseModel):
-    name = models.CharField(max_length=1024)
     collection = models.ForeignKey("Collection", on_delete=models.CASCADE)
-    start_datetime = models.DateTimeField()
-    end_datetime = models.DateTimeField()
-    uuid = models.UUIDField(default=uuid.uuid4)
+    player = models.ForeignKey("Player", on_delete=models.CASCADE)
+    finished = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.name}"
-
-
-class Player(BaseModel):
-    game = models.ForeignKey("Game", on_delete=models.CASCADE)
-    name = models.CharField(_("name"), max_length=255, db_index=True)
+        return f"{self.user}: {self.collection.name}"
 
 
 class QuestionAnswer(BaseModel):
-    player = models.ForeignKey("Player", on_delete=models.CASCADE)
+    game = models.ForeignKey("Game", on_delete=models.CASCADE)
     question = models.ForeignKey("Question", on_delete=models.CASCADE)
     correct = models.BooleanField(default=False)

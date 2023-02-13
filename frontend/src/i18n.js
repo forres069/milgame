@@ -43,6 +43,7 @@ i18n
           'Results will be published on': 'Результаты будут опубликованы',
           'Question': 'Вопрос',
           'Start the game': 'Начать игру',
+          'Welcome! Please enter or create a name and a password': 'Добро пожаловать! Пожалуйста введите или придумайте имя и пароль:',
         }
       }
     }

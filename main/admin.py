@@ -12,12 +12,3 @@ class QuestionInline(SortableTabularInline):
 
 class CollectionAdmin(SortableAdminBase, admin.ModelAdmin):
     inlines = [QuestionInline]
-
-
-admin.site.register(models.Collection, CollectionAdmin)
-
-
-class GameAdmin(admin.ModelAdmin):
-    readonly_fields = ["uuid"]
-
-admin.site.register(models.Game, GameAdmin)

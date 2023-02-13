@@ -33,7 +33,8 @@ Object.assign(submitButtonWidgets, { GameSubmit });
 
 const addLang = (url) => addLangToPathName(window.CURRENT_LANGUAGE, url);
 
-const MainWrapper = ({ player_name, result, onChange }) => {
+const MainWrapper = ({ user, result, onChange }) => {
+  console.log("user", user);
   const Component = mainComponents[result?.template];
   const loc = useLocation();
   const getUrl = (lang) => {
@@ -85,17 +86,27 @@ const HomeView = (props) => {
       <thead>
         <tr>
           <th><Trans>Name</Trans></th>
-          <th><Trans>Start date and time</Trans></th>
-          <th><Trans>End date and time</Trans></th>
+          {/*<th><Trans>Start date and time</Trans></th>
+          <th><Trans>End date and time</Trans></th>*/}
         </tr>
       </thead>
       <tbody>
         {props.items?.map(item => (<tr>
-          <td><Link to={addLang(`/game/${item.uuid}/`)}>{item.name}</Link></td>
-          <td>{item.start_datetime}</td>
-          <td>{item.end_datetime}</td>
+          <td><Link to={addLang(`/simple-game/${item.pk}/`)}>{item.name}</Link></td>
+          {/*<td>{item.start_datetime}</td>
+          <td>{item.end_datetime}</td>*/}
         </tr>))}
       </tbody>
+		</table>
+  </div>;
+};
+
+
+const WelcomeView = (props) => {
+  return <div className="container my-3">
+    <h3><Trans>Welcome! Please enter or create a name and a password</Trans></h3>
+		<table className="table table-border mt-3">
+      <TheGenericForm {...props} />
 		</table>
   </div>;
 };
@@ -161,6 +172,7 @@ const GenericForm = (props) => {
 
 Object.assign(mainComponents, {
   HomeView,
+  WelcomeView,
   PageNotFound,
   GenericForm,
   Game,
