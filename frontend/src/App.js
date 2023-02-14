@@ -8,6 +8,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
+import { DateTime } from "luxon";
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -65,7 +67,7 @@ const MainWrapper = ({ user, result, onChange }) => {
                 </li>
                 <li className="nav-item">
                   <a className="nav-link active" aria-current="page" href="#" onClick={e => e.preventDefault()}>
-                    <Link to="/logout/"><Trans>Logout</Trans></Link>
+                    <Link className="text-success" to="/logout/"><Trans>Logout</Trans></Link>
                   </a>
                 </li>
               </>}
@@ -95,6 +97,8 @@ const HomeView = (props) => {
       <thead>
         <tr>
           <th><Trans>Name</Trans></th>
+          <th><Trans>Position</Trans></th>
+          <th><Trans>Last start</Trans></th>
           {/*<th><Trans>Start date and time</Trans></th>
           <th><Trans>End date and time</Trans></th>*/}
         </tr>
@@ -102,6 +106,8 @@ const HomeView = (props) => {
       <tbody>
         {props.items?.map(item => (<tr>
           <td><Link to={addLang(`/simple-game/${item.pk}/`)}>{item.name}</Link></td>
+          <td>-</td>
+          <td>{item.last_start ? DateTime.fromSQL(item.last_start).toLocaleString(DateTime.DATETIME_MED)	 : <Trans>Never</Trans>}</td>
           {/*<td>{item.start_datetime}</td>
           <td>{item.end_datetime}</td>*/}
         </tr>))}
@@ -122,7 +128,6 @@ const WelcomeView = (props) => {
 const Game = (props) => {
   return <div className="container my-3">
     <h3><Trans>The Game</Trans>: «<Trans>{props.name}</Trans>»</h3>
-    <div className="my-3"><Trans>Will end on</Trans>: {props.end_datetime}</div>
     <div className="my-5">
       <h5 className="my-2"><Trans>Question</Trans> {props.index} / {props.total}</h5>
       <blockquote className="blockquote">{props.text}</blockquote>
@@ -138,29 +143,12 @@ const Game = (props) => {
 };
 
 
-const GameWillStart = (props) => {
+const GameResults = (props) => {
   return <div className="container my-3">
-    <h3><Trans>The Game</Trans></h3>
+    <h3><Trans>The game</Trans></h3>
     <h2>«<Trans>{props.name}</Trans>»</h2>
-    <div><Trans>Will start on:</Trans> {props.start_datetime}</div>
-  </div>;
-};
-
-
-const GameEnded = (props) => {
-  return <div className="container my-3">
-    <h3><Trans>The Game</Trans></h3>
-    <h2>«<Trans>{props.name}</Trans>»</h2>
-    <div><Trans>Has ended on:</Trans> {props.end_datetime}</div>
-  </div>;
-};
-
-
-const GameFinish = (props) => {
-  return <div className="container my-3">
-    <h3><Trans>Thank you for participating in a game</Trans></h3>
-    <h2>«<Trans>{props.name}</Trans>»</h2>
-    <div><Trans>Results will be published on</Trans>: {props.end_datetime}</div>
+    <div><Trans>Results</Trans></div>
+    TODO
   </div>;
 };
 
@@ -183,9 +171,7 @@ Object.assign(mainComponents, {
   PageNotFound,
   GenericForm,
   Game,
-  GameFinish,
-  GameWillStart,
-  GameEnded,
+  GameResults,
 });
 
 export default App;

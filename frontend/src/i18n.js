@@ -44,6 +44,12 @@ i18n
           'Question': 'Вопрос',
           'Start the game': 'Начать игру',
           'Welcome! Please enter or create a name and a password': 'Добро пожаловать! Пожалуйста введите или придумайте имя и пароль:',
+          'Logout': 'Выйти',
+          'Last score': 'Последние очки',
+          'Status': 'Статус',
+          'Never': 'Никогда',
+          'Position': 'Место',
+          'Last start': 'Последний старт',
         }
       }
     }

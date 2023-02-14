@@ -55,7 +55,7 @@ class Game(BaseModel):
     finished = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user}: {self.collection.name}"
+        return self.collection.name
 
 
 class QuestionAnswer(BaseModel):
