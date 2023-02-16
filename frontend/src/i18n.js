@@ -34,6 +34,7 @@ i18n
       ru: {
         translation: {
           'All games': 'Все игры',
+          'My games': 'Мои игры',
           'Page not found': 'Страница не найдена',
           'Visit Home': 'Перейти на главную',
           'Name': 'Имя',

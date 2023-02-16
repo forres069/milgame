@@ -92,24 +92,33 @@ Object.assign(wrapperComponents, {
 
 const HomeView = (props) => {
   return <div className="container my-3">
-    <h3><Trans>All games</Trans></h3>
+    <h3><Trans>My games</Trans></h3>
 		<table className="table table-border mt-3">
       <thead>
         <tr>
           <th><Trans>Name</Trans></th>
           <th><Trans>Position</Trans></th>
           <th><Trans>Last start</Trans></th>
-          {/*<th><Trans>Start date and time</Trans></th>
-          <th><Trans>End date and time</Trans></th>*/}
         </tr>
       </thead>
       <tbody>
-        {props.items?.map(item => (<tr>
+        {props.my_games?.map(item => (<tr>
           <td><Link to={addLang(`/simple-game/${item.pk}/`)}>{item.name}</Link></td>
           <td>-</td>
           <td>{item.last_start ? DateTime.fromSQL(item.last_start).toLocaleString(DateTime.DATETIME_MED)	 : <Trans>Never</Trans>}</td>
-          {/*<td>{item.start_datetime}</td>
-          <td>{item.end_datetime}</td>*/}
+        </tr>))}
+      </tbody>
+		</table>
+    <h3 className="mt-5"><Trans>All games</Trans></h3>
+		<table className="table table-border mt-3">
+      <thead>
+        <tr>
+          <th><Trans>Name</Trans></th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.other_games?.map(item => (<tr>
+          <td><Link to={addLang(`/simple-game/${item.pk}/`)}>{item.name}</Link></td>
         </tr>))}
       </tbody>
 		</table>

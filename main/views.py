@@ -1,4 +1,5 @@
 import json
+from django.contrib.postgres.aggregates import ArrayAgg
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.db.models import Q, Max
@@ -81,9 +82,28 @@ class HomeView(MainView):
     def get_data(self, request, *args, **kwargs):
         if not self.player:
             return {"navigate": "/welcome/"}
+
+        games_started = dict(
+            models.Game.objects.filter(player=self.player)
+            .annotate(last_start=Max("created_datetime"))
+            .values_list("collection_id", "last_start")
+        )
+        my_games = []
+        other_games = []
+        qs = models.Collection.objects.values(
+            "name",
+            "pk",
+        )
+        for item in qs:
+            last_start = games_started.get(item["pk"])
+            if last_start:
+                my_games.append({**item, "last_start": last_start})
+            else:
+                other_games.append(item)
         return {
             **super().get_data(request, *args, **kwargs),
-            "items": list(models.Collection.objects.values("name", "pk", last_start=Max("game__created_datetime", filter=Q(game__player=self.player)))),
+            "my_games": list(my_games),
+            "other_games": list(other_games),
         }
 
 
@@ -176,7 +196,7 @@ class SimpleGameView(MainView):
                 finished=False,
             )
         except models.Game.DoesNotExist:
-            return HttpResponse("Game wasn\'t started", status=400)
+            return HttpResponse("Game wasn't started", status=400)
         # Game is normal
         data = json.loads(request.body)["data"]
         answered_ids = game.questionanswer_set.values_list("question_id", flat=True)
