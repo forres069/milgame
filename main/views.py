@@ -127,14 +127,6 @@ class SimpleGameView(MainView):
     TEMPLATE = None
     title = "Welcome to the game"
 
-    def get_fields(self):
-        return {
-            "type": "Fields",
-            "fields": [
-                {"from_field": "name"},
-            ],
-        }
-
     def get_data(self, request, *args, **kwargs):
         now = timezone.now()
         if not self.player:
@@ -188,7 +180,7 @@ class SimpleGameView(MainView):
         # Game is normal
         collection = models.Collection.objects.filter(id=self.kwargs["id"]).first()
         if not collection:
-            return {"template": "PageNotFound"}
+            return HttpResponse("Not found", status=404)
         try:
             game = models.Game.objects.get(
                 player=self.player,
@@ -201,18 +193,27 @@ class SimpleGameView(MainView):
         data = json.loads(request.body)["data"]
         answered_ids = game.questionanswer_set.values_list("question_id", flat=True)
         unanswered = (
-            collection.question_set.filter(~Q(pk__in=answered_ids))
+            collection.question_set.filter(~Q(pk__in=answered_ids), pk=data["questionId"])
             .order_by("order")
             .values("pk", "text", "answer1", "answer2", "answer3", "answer4", "correct")
             .first()
         )
         if unanswered:
+            correct = unanswered["correct"] == data["answer"]
             models.QuestionAnswer.objects.create(
                 game=game,
                 question_id=unanswered["pk"],
-                correct=unanswered["correct"] == data["answer"],
+                correct=correct,
             )
-        return JsonResponse({"navigate": f"{lang}/simple-game/{collection.id}/"})
+            if not correct:
+                return JsonResponse({
+                    "navigate_url": f"{lang}/simple-game/{collection.id}/",
+                    "action": "highlightCorrect",
+                    "correctAnswer": unanswered["correct"],
+                })
+        return JsonResponse({
+            "navigate": f"{lang}/simple-game/{collection.id}/",
+        })
 
 
 @method_decorator(csrf_exempt, name="dispatch")

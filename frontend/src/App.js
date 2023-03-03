@@ -135,6 +135,7 @@ const WelcomeView = (props) => {
 
 
 const Game = (props) => {
+  // console.log('props', props);
   return <div className="container my-3">
     <h3><Trans>The Game</Trans>: «<Trans>{props.name}</Trans>»</h3>
     <div className="my-5">
