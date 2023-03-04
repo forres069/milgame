@@ -135,7 +135,21 @@ const WelcomeView = (props) => {
 
 
 const Game = (props) => {
-  // console.log('props', props);
+  const [ selectedAnswer, setSelectedAnswer ] = useState()
+  const [ correctAnswer, setCorrectAnswer ] = useState()
+  const [ navigateTo, setNavigateTo ] = useState()
+  const navigate = useNavigate()
+  const handleClick = useCallback((i) => {
+    if (selectedAnswer) return
+    setSelectedAnswer(i)
+    props.onChange({questionId: props.pk, answer: i}, null, response => {
+      if (response.correctAnswer) {
+        setCorrectAnswer(response.correctAnswer)
+      }
+      setNavigateTo(response.navigate_url)
+    })
+  }, [props.pk, selectedAnswer])
+
   return <div className="container my-3">
     <h3><Trans>The Game</Trans>: «<Trans>{props.name}</Trans>»</h3>
     <div className="my-5">
@@ -143,10 +157,20 @@ const Game = (props) => {
       <blockquote className="blockquote">{props.text}</blockquote>
       <div className="d-grid" style={{gridTemplateColumns: "1fr 1fr", gridGap: 20}}>
         {[1,2,3,4].map(i => (
-          <button key={i} type="button" className="btn btn-xl btn-outline-dark" style={{textAlign: "left"}} onClick={_ => props.onChange({questionId: props.pk, answer: i})}>
+          <button
+            key={i}
+            type="button"
+            className={`btn btn-xl btn-outline-dark ${selectedAnswer === i ? 'answer_selected' : ''} ${correctAnswer === i ? 'answer_correct' : ''}`}
+            style={{textAlign: "left"}}
+            onClick={() => handleClick(i)}
+            disabled={!!correctAnswer}
+          >
             {props[`answer${i}`]}
           </button>
         ))}
+        {!!navigateTo && <button className="btn btn-xl btn-primary" onClick={() => navigate(navigateTo)}>
+          Next question
+        </button>}
       </div>
     </div>
   </div>;

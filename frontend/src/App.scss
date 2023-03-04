@@ -1,1 +1,36 @@
 @import "bootstrap";
+
+@keyframes selectedAnswer {
+    0% {
+        background-color: rgba(#ffc107, .2);
+    }
+    50% {
+        background-color: rgba(#ffc107, 1);
+    }
+    100% {
+        background-color: rgba(#ffc107, .2);
+    }
+}
+
+@keyframes correctAnswer {
+    0% {
+        background-color: rgba(#198754, .5);
+    }
+    50% {
+        background-color: rgba(#198754, 1);
+    }
+    100% {
+        background-color: rgba(#198754, .5);
+    }
+}
+
+.answer {
+    &_selected {
+        animation: selectedAnswer 1s linear infinite;
+    }
+
+    &_correct {
+        color: #fff !important;
+        animation: correctAnswer 1s linear infinite;
+    }
+}
