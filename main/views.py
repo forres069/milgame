@@ -205,12 +205,11 @@ class SimpleGameView(MainView):
                 question_id=unanswered["pk"],
                 correct=correct,
             )
-            if not correct:
-                return JsonResponse({
-                    "navigate_url": f"{lang}/simple-game/{collection.id}/",
-                    "action": "highlightCorrect",
-                    "correctAnswer": unanswered["correct"],
-                })
+            return JsonResponse({
+                "navigate_url": f"{lang}/simple-game/{collection.id}/",
+                "action": "highlightCorrect",
+                "correctAnswer": unanswered["correct"],
+            })
         return JsonResponse({
             "navigate": f"{lang}/simple-game/{collection.id}/",
         })
