@@ -29,6 +29,7 @@ i18n
           'Results will be published on': 'Les résultats seront publiés le',
           'Question': 'Question',
           'Start the game': 'Commencer le jeu',
+          'Next question': 'Question suivante'
         }
       },
       ru: {

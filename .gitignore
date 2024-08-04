@@ -3,3 +3,8 @@ main/templates/react/**
 main/static/react/**
 .venv/
 *.mo
+*.swp
+*.py[cod]
+*.sqlite3
+/static/**
+/media/**

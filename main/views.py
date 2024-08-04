@@ -128,15 +128,16 @@ class SimpleGameView(MainView):
     title = "Welcome to the game"
 
     def get_data(self, request, *args, **kwargs):
-        now = timezone.now()
         if not self.player:
             return {"navigate": "/welcome/"}
-        # Cleanup
+        
         if "GAME_STATE" in request.session:
             del request.session["GAME_STATE"]
+        
         collection = models.Collection.objects.filter(id=self.kwargs["id"]).first()
         if not collection:
             return {"template": "PageNotFound"}
+        
         try:
             game = models.Game.objects.get(
                 player=self.player,
@@ -149,23 +150,35 @@ class SimpleGameView(MainView):
                 collection=collection,
                 finished=False,
             )
-        # Game is normal
+
         answered_ids = game.questionanswer_set.values_list("question_id", flat=True)
         unanswered = (
             collection.question_set.filter(~Q(pk__in=answered_ids))
             .order_by("order")
-            .values("pk", "text", "answer1", "answer2", "answer3", "answer4")
         )
-        if unanswered:
+        
+        if unanswered.exists():
+            question = unanswered.first()
             total = collection.question_set.count()
-            return {
+            data = {
                 "template": "Game",
                 "player_name": self.player.name,
                 "name": collection.name,
                 "index": total - unanswered.count() + 1,
                 "total": total,
-                **unanswered.first(),
+                "pk": question.pk,
+                "text": question.text,
+                "answer1": question.answer1,
+                "answer2": question.answer2,
+                "answer3": question.answer3,
+                "answer4": question.answer4,
+                "question_type": question.question_type,
+                "photo_file": request.build_absolute_uri(question.photo_file.url) if question.photo_file else None,
+                "audio_file": request.build_absolute_uri(question.audio_file.url) if question.audio_file else None,
+                "video_file": request.build_absolute_uri(question.video_file.url) if question.video_file else None,
             }
+            
+            return data
         else:
             return {
                 "template": "GameResults",
@@ -177,7 +190,7 @@ class SimpleGameView(MainView):
         if not self.player:
             return HttpResponse("Unauthorized", status=401)
         lang = "/" + request.LANGUAGE_CODE if request.LANGUAGE_CODE != "en" else ""
-        # Game is normal
+
         collection = models.Collection.objects.filter(id=self.kwargs["id"]).first()
         if not collection:
             return HttpResponse("Not found", status=404)

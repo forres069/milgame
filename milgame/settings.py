@@ -78,14 +78,20 @@ WSGI_APPLICATION = 'milgame.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'milgame',
+#         'USER': 'milgame',
+#         'PASSWORD': os.environ['MILGAME_DJANGO_DATABASE_PASSWORD'],
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'milgame',
-        'USER': 'milgame',
-        'PASSWORD': os.environ['MILGAME_DJANGO_DATABASE_PASSWORD'],
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -135,6 +141,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR + "/static/"
 
-FRONTEND_DEV_MODE = os.environ.get('FRONTEND_DEV_MODE', False)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
+
+FRONTEND_DEV_MODE = 1
 
 LOCALE_PATHS = [BASE_DIR + '/locale/']

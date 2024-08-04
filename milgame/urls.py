@@ -19,12 +19,18 @@ from logicore_django_react.urls import react_reload_and_static_urls, react_html_
 from main import views # required
 from logicore_django_react_pages.views import all_api_urls
 from django.conf.urls.i18n import i18n_patterns
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     *i18n_patterns(path('admin/', admin.site.urls), prefix_default_language=False),
     *all_api_urls(),
     *i18n_patterns(re_path(r"api/.*", views.Error404ApiView.as_view()), prefix_default_language=False),
 ]
-
-urlpatterns = react_reload_and_static_urls + urlpatterns + react_html_template_urls
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+    
+urlpatterns = react_reload_and_static_urls + urlpatterns + react_html_template_urls 
