@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "builds": [
+    {
+      "src": "frontend/*/*",
+      "use": "@vercel/next"
+    },
+    {
+      "src": "millgame/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/millgame/wsgi.py",
+      }
+    ]
+  }
