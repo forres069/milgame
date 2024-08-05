@@ -175,7 +175,7 @@ const WelcomeView = (props) => (
 );
 
 const Game = (props) => {
-  const { pk, onChange, name, index, total, text, answer1, answer2, answer3, answer4 } = props;
+  const { pk, onChange, name, index, total, text } = props;
   const [selectedAnswer, setSelectedAnswer] = useState();
   const [correctAnswer, setCorrectAnswer] = useState();
   const [navigateTo, setNavigateTo] = useState();
