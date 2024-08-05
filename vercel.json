@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "frontend/*",
+        "use": "@vercel/next"
+      },
+      {
+        "src": "millgame/wsgi.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/backend/index.wsgi",
+        "methods": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"]
+      }
+    ]
+}
