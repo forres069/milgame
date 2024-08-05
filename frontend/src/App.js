@@ -175,6 +175,7 @@ const WelcomeView = (props) => (
 );
 
 const Game = (props) => {
+  const { pk, onChange, name, index, total, text, answer1, answer2, answer3, answer4 } = props;
   const [selectedAnswer, setSelectedAnswer] = useState();
   const [correctAnswer, setCorrectAnswer] = useState();
   const [navigateTo, setNavigateTo] = useState();
@@ -183,20 +184,20 @@ const Game = (props) => {
   const handleClick = useCallback((i) => {
     if (selectedAnswer) return;
     setSelectedAnswer(i);
-    props.onChange({ questionId: props.pk, answer: i }, null, response => {
+    onChange({ questionId: pk, answer: i }, null, response => {
       if (response.correctAnswer) {
         setCorrectAnswer(response.correctAnswer);
       }
       setNavigateTo(response.navigate_url);
     });
-  }, [props.pk, selectedAnswer, props.onChange]);
+  }, [pk, selectedAnswer, onChange]);
 
   return (
     <div className="container my-3">
-      <h3><Trans>The Game</Trans>: «<Trans>{props.name}</Trans>»</h3>
+      <h3><Trans>The Game</Trans>: «<Trans>{name}</Trans>»</h3>
       <div className="my-5">
-        <h5 className="my-2"><Trans>Question</Trans> {props.index} / {props.total}</h5>
-        <blockquote className="blockquote">{props.text}</blockquote>
+        <h5 className="my-2"><Trans>Question</Trans> {index} / {total}</h5>
+        <blockquote className="blockquote">{text}</blockquote>
         <MediaComponent question={props} />
         <div className="d-grid" style={{ gridTemplateColumns: "1fr 1fr", gridGap: 20 }}>
           {[1, 2, 3, 4].map(i => (
@@ -221,6 +222,7 @@ const Game = (props) => {
     </div>
   );
 };
+
 
 const GameResults = (props) => (
   <div className="container my-3">
