@@ -1,14 +1,9 @@
 {
-    "builds": [
-    {
-      "src": "frontend/*/*",
-      "use": "@vercel/next"
-    },
-    {
+    "builds": [{
       "src": "millgame/wsgi.py",
       "use": "@vercel/python"
-    }
-  ],
+    }],
+    
     "routes": [
       {
         "src": "/(.*)",
