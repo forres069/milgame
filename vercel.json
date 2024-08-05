@@ -1,29 +1,28 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "frontend/package.json",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "frontend/build"
-        }
-      },
-      {
-        "src": "backend/requirements.txt",
-        "use": "@vercel/python"
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/build"
       }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/backend/$1",
-        "methods": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"]
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/frontend/$1",
-        "methods": ["GET", "HEAD"]
-      }
-    ]
-  }
-  
+    },
+    {
+      "src": "milgame/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "milgame/wsgi.py",
+      "methods": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/",
+      "methods": ["GET", "HEAD"]
+    }
+  ]
+}
