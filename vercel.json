@@ -3,9 +3,9 @@
     "builds": [
       {
         "src": "frontend",
-        "use": "@vercel/next",
+        "use": "@vercel/static-build",
         "config": {
-          "distDir": "frontend/out"
+          "distDir": "frontend/build"
         }
       },
       {
@@ -24,7 +24,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "frontend/out"
+        "dest": "frontend/build"
       }
     ]
   }
