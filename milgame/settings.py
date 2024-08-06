@@ -25,8 +25,8 @@ SECRET_KEY = '3ue_-s*v69g5r^fp)g&saf0n=@jf9hl67c344xdy7*)dcv^#=l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["https://milgame-u2wl.vercel.app/.vercel.app", "milgame.andrewboltachev.site", "127.0.0.1", "localhost"]
-CSRF_TRUSTED_ORIGINS = ["https://milgame.andrewboltachev.site", "http://127.0.0.1", "http://localhost"]
+ALLOWED_HOSTS = [".vercel.app", "milgame.andrewboltachev.site", "127.0.0.1", "localhost"]
+CSRF_TRUSTED_ORIGINS = [".vercel.app", "https://milgame.andrewboltachev.site", "http://127.0.0.1", "http://localhost"]
 
 # Application definition
 
