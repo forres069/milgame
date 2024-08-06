@@ -1,31 +1,27 @@
 {
     "version": 2,
     "builds": [
-        {
+      {
         "src": "milgame/wsgi.py",
         "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.10.10" }
+      },
+      {
+        "src": "build_files.sh",
+        "use": "@vercel/static-build",
         "config": {
-            "maxLambdaSize": "15mb",
-            "runtime": "python3.10"
-            }
-        },
-        {
-            "src": "frontend/build",
-            "use": "@vercel/static-build",
-            "config": {
-                "distDir": "frontend/build"
-            }
+          "distDir": "staticfiles_build"
         }
+      }
     ],
-        "routes": [
-            {
-                "src": "frontend/(.*)",
-                "dest": "frontend/build/$1"
-            },
-            {
-                "src": "/(.*)",
-                "dest": "milgame/wsgi.py"
-            }
-        ]
-}
-  
+    "routes": [
+      {
+        "src": "/static/(.*)",
+        "dest": "/static/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "milgame/wsgi.py"
+      }
+    ]
+  }

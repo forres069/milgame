@@ -32,5 +32,5 @@ if settings.DEBUG:
                           document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
-    
+
 urlpatterns = react_reload_and_static_urls + urlpatterns + react_html_template_urls 
