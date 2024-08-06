@@ -1,18 +1,18 @@
 {
     "version": 2,
-    "builds": [{
-        "src": "milgame/wsgi.py",
-        "use": "@vercel/python",
+    "builds": [
+      {
+        "src": "frontend/package.json",
+        "use": "@vercel/static-build",
         "config": {
-            "maxLambdaSize": "15mb",
-            "runtime": "python3.10"
+          "distDir": "frontend/build"
         }
-      }],
+      }
+    ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "milgame/wsgi.py"
+        "dest": "frontend/build/$1"
       }
     ]
-}
-  
+  }
