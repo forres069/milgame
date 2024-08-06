@@ -1,38 +1,18 @@
 {
     "version": 2,
-    "builds": [
-      {
-        "src": "frontend/package.json",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "frontend/build"
-        }
-      },
-      {
+    "builds": [{
         "src": "milgame/wsgi.py",
         "use": "@vercel/python",
         "config": {
-          "maxLambdaSize": "15mb",
-          "runtime": "python3.10"
+            "maxLambdaSize": "15mb",
+            "runtime": "python3.10"
         }
-      }
-    ],
+      }],
     "routes": [
       {
-        "src": "/api/(.*)",
-        "dest": "/milgame/$1",
-        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-      },
-      {
-        "src": "/static/(.*)",
-        "dest": "/milgame/static/$1",
-        "methods": ["GET"]
-      },
-      {
         "src": "/(.*)",
-        "dest": "/frontend/$1",
-        "methods": ["GET", "HEAD"]
+        "dest": "milgame/wsgi.py"
       }
     ]
-  }
+}
   
